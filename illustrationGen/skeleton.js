@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * @license
  * Copyright 2020 Google Inc. All Rights Reserved.
@@ -16,14 +17,14 @@
  */
 
 import * as paper from 'paper';
-import { SVGUtils } from '../utils/svgUtils';
-import { MathUtils } from '../utils/mathUtils';
-import { ColorUtils } from '../utils/colorUtils';
+import {SVGUtils} from '../utils/svgUtils';
+import {MathUtils} from '../utils/mathUtils';
+import {ColorUtils} from '../utils/colorUtils';
 
 const MIN_POSE_SCORE = 0.1;
 const MIN_FACE_SCORE = 0.8;
 
-const posePartNames = ['leftAnkle', 'leftKnee', 'leftHip', 'leftWrist', 'leftElbow', 'leftShoulder', 
+const posePartNames = ['leftAnkle', 'leftKnee', 'leftHip', 'leftWrist', 'leftElbow', 'leftShoulder',
     'rightAnkle', 'rightKnee', 'rightHip', 'rightWrist', 'rightElbow', 'rightShoulder',
     'leftEar', 'rightEar'];
 
@@ -36,28 +37,28 @@ export const facePartName2Index = {
     'leftTop1': 284,
     'rightJaw0': 21,
     'rightJaw1': 162,
-    'rightJaw2': 127, 
+    'rightJaw2': 127,
     'rightJaw3': 234,
-    'rightJaw4': 132, 
-    'rightJaw5': 172, 
+    'rightJaw4': 132,
+    'rightJaw5': 172,
     'rightJaw6': 150,
     'rightJaw7': 176,
-    'jawMid': 152,   // 0 - 8
-    'leftJaw7': 400, 
-    'leftJaw6': 379, 
-    'leftJaw5': 397, 
+    'jawMid': 152, // 0 - 8
+    'leftJaw7': 400,
+    'leftJaw6': 379,
+    'leftJaw5': 397,
     'leftJaw4': 361,
     'leftJaw3': 454,
     'leftJaw2': 356,
     'leftJaw1': 389,
     'leftJaw0': 251, // 9 - 16
-    'rightBrow0': 46, 
-    'rightBrow1': 53, 
+    'rightBrow0': 46,
+    'rightBrow1': 53,
     'rightBrow2': 52,
     'rightBrow3': 65,
     'rightBrow4': 55, // 17 - 21
     'leftBrow4': 285,
-    'leftBrow3': 295, 
+    'leftBrow3': 295,
     'leftBrow2': 282,
     'leftBrow1': 283,
     'leftBrow0': 276, // 22 - 26
@@ -67,7 +68,7 @@ export const facePartName2Index = {
     'nose3': 5, // 27 - 30
     'rightNose0': 48,
     'rightNose1': 220,
-    'nose4': 4, 
+    'nose4': 4,
     'leftNose1': 440,
     'leftNose0': 278, // 31 - 35
     'rightEye0': 33,
@@ -80,7 +81,7 @@ export const facePartName2Index = {
     'leftEye2': 385,
     'leftEye1': 387,
     'leftEye0': 263,
-    'leftEye5': 373, 
+    'leftEye5': 373,
     'leftEye4': 380, // 42 - 47
     'rightMouthCorner': 61,
     'rightUpperLipTop0': 40,
@@ -99,14 +100,14 @@ export const facePartName2Index = {
     'upperLipBottomMid': 13,
     'leftUpperLipBottom1': 311,
     'leftMiddleLip': 308, // 60 - 64
-    'leftLowerLipTop0': 402, 
+    'leftLowerLipTop0': 402,
     'lowerLipTopMid': 14,
     'rightLowerLipTop0': 178, // 65 - 67
 };
 
 const facePartNames = [
     'topMid', 'rightTop0', 'rightTop1', 'leftTop0', 'leftTop1',
-    'rightJaw0', 'rightJaw1', 'rightJaw2', 'rightJaw3', 'rightJaw4', 'rightJaw5', 'rightJaw6', 'rightJaw7', 'jawMid',   // 0 - 8
+    'rightJaw0', 'rightJaw1', 'rightJaw2', 'rightJaw3', 'rightJaw4', 'rightJaw5', 'rightJaw6', 'rightJaw7', 'jawMid', // 0 - 8
     'leftJaw7', 'leftJaw6', 'leftJaw5', 'leftJaw4', 'leftJaw3', 'leftJaw2', 'leftJaw1', 'leftJaw0', // 9 - 16
     'rightBrow0', 'rightBrow1', 'rightBrow2', 'rightBrow3', 'rightBrow4', // 17 - 21
     'leftBrow4', 'leftBrow3', 'leftBrow2', 'leftBrow1', 'leftBrow0', // 22 - 26
@@ -149,7 +150,7 @@ export class Bone {
         let d = this.kp0.position.subtract(this.kp1.position).length;
         let anchorPerc = closestP.subtract(this.kp0.position).length / d;
         return {
-            transform: new paper.default.Point(dirProjD, dirProjN),
+            transform: new paper.Point(dirProjD, dirProjN),
             anchorPerc: anchorPerc,
         };
     }
@@ -183,16 +184,16 @@ function getPartFromPose(pose, name) {
     if (!pose || !pose.keypoints) {
         return null;
     }
-    let part = pose.keypoints.find(kp => kp.part === name);
+    let part = pose.keypoints.find((kp) => kp.part === name);
     return {
-        position: new paper.default.Point(part.position.x, part.position.y),
+        position: new paper.Point(part.position.x, part.position.y),
         score: part.score,
-    }
+    };
 }
 
 function getKeypointFromFaceFrame(face, i) {
     if (!face || !face.scaledMesh || !face.scaledMesh.length);
-    return new paper.default.Point(face.positions[i * 2], face.positions[i * 2 + 1]);
+    return new paper.Point(face.positions[i * 2], face.positions[i * 2 + 1]);
 }
 
 // Represents a full body skeleton.
@@ -436,7 +437,7 @@ export class Skeleton {
             this.bRightMouthCornerRightLowerLipBottom0,
             this.bRightLowerLipBottom0RightLowerLipBottom1,
             this.bRightLowerLipBottom1LowerLipBottomMid,
-        ]
+        ];
         this.bodyBones = [
             // Body
             this.bLeftShoulderRightShoulder,
@@ -450,7 +451,7 @@ export class Skeleton {
             this.bLeftHipLeftKnee,
             this.bLeftKneeLeftAnkle,
             this.bRightHipRightKnee,
-            this.bRightKneeRightAnkle
+            this.bRightKneeRightAnkle,
         ];
         this.bones = this.faceBones.concat(this.bodyBones);
         this.secondaryBones = [];
@@ -471,7 +472,7 @@ export class Skeleton {
             ],
             'rightLeg': [
                 this.bRightHipRightKnee,
-                this.bRightKneeRightAnkle
+                this.bRightKneeRightAnkle,
             ],
             'leftArm': [
                 this.bLeftShoulderLeftElbow,
@@ -484,9 +485,9 @@ export class Skeleton {
             'face': this.faceBones,
         };
 
-        this.faceBones.forEach(bone => {
+        this.faceBones.forEach((bone) => {
             let parts = [bone.kp0, bone.kp1];
-            parts.forEach(part => {
+            parts.forEach((part) => {
                 part.baseTransFunc = MathUtils.getTransformFunc(this.bLeftJaw2LeftJaw3.kp0.position,
                     this.bRightJaw2RightJaw3.kp0.position, part.position);
             });
@@ -506,7 +507,7 @@ export class Skeleton {
         if (!this.isValid) return;
 
         // Update bones.
-        this.bones.forEach(bone => {
+        this.bones.forEach((bone) => {
             let part0 = this.parts[bone.kp0.name];
             let part1 = this.parts[bone.kp1.name];
             bone.kp0.currentPosition = part0.position;
@@ -516,7 +517,7 @@ export class Skeleton {
         });
         // Update secondary bones.
         let nosePos = this.bNose3Nose4.kp1.currentPosition;
-        this.secondaryBones.forEach(bone => {
+        this.secondaryBones.forEach((bone) => {
             bone.kp0.currentPosition = bone.kp0.transformFunc(bone.parent.kp0.currentPosition, nosePos);
             bone.kp1.currentPosition = bone.kp1.transformFunc(bone.parent.kp1.currentPosition, nosePos);
             bone.score = bone.parent.score;
@@ -529,7 +530,7 @@ export class Skeleton {
     }
 
     updatePoseParts(pose) {
-        posePartNames.forEach(partName => {
+        posePartNames.forEach((partName) => {
             // Use new and old pose's confidence scores as weights to compute the new part position.
             let part1 = getPartFromPose(pose, partName);
             let part0 = (this.parts[partName] || part1);
@@ -546,7 +547,7 @@ export class Skeleton {
         }
         return true;
     }
-    
+
     updateFaceParts(face) {
         let posLeftEar = this.parts['leftEar'].position;
         let posRightEar = this.parts['rightEar'].position;
@@ -558,7 +559,7 @@ export class Skeleton {
                 if (!pos) continue;
                 this.parts[partName] = {
                     position: pos,
-                    score: face.faceInViewConfidence
+                    score: face.faceInViewConfidence,
                 };
             }
             // Keep track of the transformation from pose ear positions to face ear positions.
@@ -571,9 +572,9 @@ export class Skeleton {
             let fRightEar = this.rightEarP2FFunc ? this.rightEarP2FFunc(posLeftEar, posRightEar) : posRightEar;
             // Also infer face scale from pose.
             this.currentFaceScale = this.currentBodyScale;
-            this.faceBones.forEach(bone => {
+            this.faceBones.forEach((bone) => {
                 let parts = [bone.kp0, bone.kp1];
-                parts.forEach(part => {
+                parts.forEach((part) => {
                     this.parts[part.name] = {
                         position: part.baseTransFunc(fLeftEar, fRightEar),
                         score: 1,
@@ -586,10 +587,10 @@ export class Skeleton {
 
     findBoneGroup(point) {
         let minDistances = {};
-        Object.keys(this.boneGroups).forEach(boneGroupKey => {
+        Object.keys(this.boneGroups).forEach((boneGroupKey) => {
             let minDistance = Infinity;
             let boneGroup = this.boneGroups[boneGroupKey];
-            boneGroup.forEach(bone => {
+            boneGroup.forEach((bone) => {
                 let d = MathUtils.getClosestPointOnSegment(bone.kp0.position, bone.kp1.position, point)
                     .getDistance(point);
                 minDistance = Math.min(minDistance, d);
@@ -598,18 +599,18 @@ export class Skeleton {
         });
         let minDistance = Math.min(...Object.values(minDistances));
         let selectedGroups = [];
-        Object.keys(minDistances).forEach(key => {
+        Object.keys(minDistances).forEach((key) => {
             let distance = minDistances[key];
             if (distance <= minDistance) {
                 selectedGroups.push(this.boneGroups[key]);
             }
         });
-        return selectedGroups.flatten();
+        return selectedGroups.flat();
     }
 
     getTotalBoneLength(bones) {
         let totalLen = 0;
-        bones.forEach(bone => {
+        bones.forEach((bone) => {
             let d = (bone.kp0.currentPosition || bone.kp0.position).subtract(bone.kp1.currentPosition || bone.kp1.position);
             totalLen += d.length;
         });
@@ -619,11 +620,11 @@ export class Skeleton {
     debugDraw(scope) {
         let group = new scope.Group();
         scope.project.activeLayer.addChild(group);
-        this.bones.forEach(bone => {
+        this.bones.forEach((bone) => {
             let path = new scope.Path({
                 segments: [bone.kp0.currentPosition, bone.kp1.currentPosition],
                 strokeWidth: 2,
-                strokeColor: bone.boneColor
+                strokeColor: bone.boneColor,
             });
             group.addChild(path);
         });
@@ -640,13 +641,13 @@ export class Skeleton {
     debugDrawLabels(scope) {
         let group = new scope.Group();
         scope.project.activeLayer.addChild(group);
-        this.bones.forEach(bone => {
+        this.bones.forEach((bone) => {
             let addLabel = (kp, name) => {
                 let text = new scope.PointText({
                     point: [kp.currentPosition.x, kp.currentPosition.y],
                     content: name,
                     fillColor: 'black',
-                    fontSize: 7
+                    fontSize: 7,
                 });
                 group.addChild(text);
             };
@@ -660,8 +661,8 @@ export class Skeleton {
     }
 
     static getCurrentPosition(segment) {
-        let position = new paper.default.Point();
-        Object.keys(segment.skinning).forEach(boneName => {
+        let position = new paper.Point();
+        Object.keys(segment.skinning).forEach((boneName) => {
             let bt = segment.skinning[boneName];
             position = position.add(bt.bone.transform(bt.transform).multiply(bt.weight));
         });
@@ -669,7 +670,7 @@ export class Skeleton {
     }
 
     static flipPose(pose) {
-        pose.keypoints.forEach(kp => {
+        pose.keypoints.forEach((kp) => {
             if (kp.part && kp.part.startsWith('left')) {
                 kp.part = 'right' + kp.part.substring('left'.length, kp.part.length);
             } else if (kp.part && kp.part.startsWith('right')) {
@@ -678,8 +679,31 @@ export class Skeleton {
         });
     }
 
+    static pureFlipPose(pose) {
+        // Create a new pose object with the flipped keypoints
+        const flippedPose = {
+            ...pose,
+            keypoints: pose.keypoints.map((kp) => {
+                if (kp.part && kp.part.startsWith('left')) {
+                    return {
+                        ...kp,
+                        part: 'right' + kp.part.substring('left'.length)
+                    };
+                } else if (kp.part && kp.part.startsWith('right')) {
+                    return {
+                        ...kp,
+                        part: 'left' + kp.part.substring('right'.length)
+                    };
+                }
+                return kp; // Return the keypoint unmodified if it doesn't start with 'left' or 'right'
+            })
+        };
+    
+        return flippedPose;
+    }
+
     static flipFace(face) {
-        Object.keys(facePartName2Index).forEach(partName => {
+        Object.keys(facePartName2Index).forEach((partName) => {
             if (partName.startsWith('left')) {
                 let rightName = 'right' + partName.substr('left'.length, partName.length);
                 let temp = face.scaledMesh[facePartName2Index[partName]];
@@ -699,9 +723,9 @@ export class Skeleton {
             maxX = Math.max(x, maxX);
             minY = Math.min(y, minY);
             maxY = Math.max(y, maxY);
-        }
-        pose.frames.forEach(frame => {
-            frame.pose.keypoints.forEach(kp => {
+        };
+        pose.frames.forEach((frame) => {
+            frame.pose.keypoints.forEach((kp) => {
                 updateMinMax(kp.position.x, kp.position.y);
             });
             let faceKeypoints = frame.face.positions;
@@ -713,8 +737,8 @@ export class Skeleton {
     }
 
     static translatePose(pose, d) {
-        pose.frames.forEach(frame => {
-            frame.pose.keypoints.forEach(kp => {
+        pose.frames.forEach((frame) => {
+            frame.pose.keypoints.forEach((kp) => {
                 kp.position.x += d.x;
                 kp.position.y += d.y;
             });
@@ -727,8 +751,8 @@ export class Skeleton {
     }
 
     static resizePose(pose, origin, scale) {
-        pose.frames.forEach(frame => {
-            frame.pose.keypoints.forEach(kp => {
+        pose.frames.forEach((frame) => {
+            frame.pose.keypoints.forEach((kp) => {
                 kp.position.x = origin.x + (kp.position.x - origin.x) * scale.x;
                 kp.position.y = origin.y + (kp.position.y - origin.y) * scale.y;
             });

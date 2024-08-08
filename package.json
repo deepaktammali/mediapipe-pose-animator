@@ -9,13 +9,16 @@
     "node": ">=8.9.0"
   },
   "dependencies": {
+    "@mediapipe/camera_utils": "^0.3.1675466862",
+    "@mediapipe/holistic": "^0.5.1675471629",
     "@tensorflow-models/facemesh": "^0.0.1",
     "@tensorflow-models/posenet": "^2.2.1",
     "@tensorflow/tfjs": "^1.7.0",
     "@tensorflow/tfjs-converter": "^1.7.0",
     "@tensorflow/tfjs-core": "^1.7.0",
     "face-api.js": "^0.22.1",
-    "paper": "file:third_party/paper",
+    "fsevents": "^2.3.3",
+    "paper": "^0.12.18",
     "stats.js": "^0.17.0"
   },
   "scripts": {
@@ -29,17 +32,21 @@
     "crypto": false
   },
   "devDependencies": {
+    "@parcel/transformer-inline-string": "2.12.0",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-runtime": "~6.23.0",
     "babel-polyfill": "~6.26.0",
     "babel-preset-env": "~1.6.1",
     "babel-preset-es2017": "^6.24.1",
+    "buffer": "^5.5.0||^6.0.0",
     "clang-format": "~1.2.2",
     "cross-env": "^5.2.0",
     "dat.gui": "^0.7.2",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
+    "parcel": "^2.12.0",
     "parcel-bundler": "~1.12.4",
+    "process": "^0.11.10",
     "yalc": "~1.0.0-pre.27"
   },
   "eslintConfig": {

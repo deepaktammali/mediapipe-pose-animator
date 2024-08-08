@@ -15,14 +15,15 @@
  * =============================================================================
  */
 
-import * as posenet_module from '@tensorflow-models/posenet';
-import * as facemesh_module from '@tensorflow-models/facemesh';
+/* eslint-disable max-len */
+
+import * as posenetModule from '@tensorflow-models/posenet';
+import * as facemeshModule from '@tensorflow-models/facemesh';
 import * as tf from '@tensorflow/tfjs';
 import * as paper from 'paper';
-import "babel-polyfill";
 
 import dat from 'dat.gui';
-import {SVGUtils} from './utils/svgUtils'
+import {SVGUtils} from './utils/svgUtils';
 import {PoseIllustration} from './illustrationGen/illustration';
 import {Skeleton, facePartName2Index} from './illustrationGen/skeleton';
 import {toggleLoadingUI, setStatusText} from './utils/demoUtils';
@@ -32,12 +33,12 @@ import * as girlSVG from './resources/illustration/girl.svg';
 import * as abstractSVG from './resources/illustration/abstract.svg';
 import * as blathersSVG from './resources/illustration/blathers.svg';
 import * as tomNookSVG from './resources/illustration/tom-nook.svg';
-import * as boy_doughnut from './resources/images/boy_doughnut.jpg';
-import * as tie_with_beer from './resources/images/tie_with_beer.jpg';
-import * as test_img from './resources/images/test.png';
-import * as full_body from './resources/images/full-body.png';
-import * as full_body_1 from './resources/images/full-body_1.png';
-import * as full_body_2 from './resources/images/full-body_2.png';
+import * as boyDoughnut from './resources/images/boy_doughnut.jpg';
+import * as tieWithBeer from './resources/images/tie_with_beer.jpg';
+import * as testImg from './resources/images/test.png';
+import * as fullBody from './resources/images/full-body.png';
+import * as fullBody1 from './resources/images/full-body_1.png';
+import * as fullBody2 from './resources/images/full-body_2.png';
 
 // clang-format off
 import {
@@ -46,7 +47,7 @@ import {
   drawSkeleton,
   renderImageToCanvas,
 } from './utils/demoUtils';
-import { FileUtils } from './utils/fileUtils';
+import {FileUtils} from './utils/fileUtils';
 
 // clang-format on
 const resnetArchitectureName = 'MobileNetV1';
@@ -58,12 +59,12 @@ const avatarSvgs = {
   'tom-nook': tomNookSVG.default,
 };
 const sourceImages = {
-  'boy_doughnut': boy_doughnut.default,
-  'tie_with_beer': tie_with_beer.default,
-  'test_img': test_img.default,
-  'full_body': full_body.default,
-  'full_body_1': full_body_1.default,
-  'full_body_2': full_body_2.default,
+  'boy_doughnut': boyDoughnut.default,
+  'tie_with_beer': tieWithBeer.default,
+  'test_img': testImg.default,
+  'full_body': fullBody.default,
+  'full_body_1': fullBody1.default,
+  'full_body_2': fullBody2.default,
 };
 
 let skeleton;
@@ -111,8 +112,8 @@ function drawResults(image, canvas, faceDetection, poses) {
     }
   });
   if (guiState.showKeypoints) {
-    faceDetection.forEach(face => {
-      Object.values(facePartName2Index).forEach(index => {
+    faceDetection.forEach((face) => {
+      Object.values(facePartName2Index).forEach((index) => {
           let p = face.scaledMesh[index];
           drawPoint(ctx, p[1], p[0], 3, 'red');
       });
@@ -126,7 +127,7 @@ async function loadImage(imagePath) {
     image.crossOrigin = '';
     image.onload = () => {
       resolve(image);
-    }
+    };
   });
 
   image.src = imagePath;
@@ -180,7 +181,7 @@ async function testImageAndEstimatePoses() {
   document.getElementById('results').style.display = 'none';
 
   // Reload facemesh model to purge states from previous runs.
-  facemesh = await facemesh_module.load();
+  facemesh = await facemeshModule.load();
 
   // Load an example image
   setStatusText('Loading image...');
@@ -218,12 +219,12 @@ let guiState = {
 
 function setupGui() {
   const gui = new dat.GUI();
-  
+
   const imageControls = gui.addFolder('Image');
   imageControls.open();
   gui.add(guiState, 'sourceImage', Object.keys(sourceImages)).onChange(() => testImageAndEstimatePoses());
   gui.add(guiState, 'avatarSVG', Object.keys(avatarSvgs)).onChange(() => loadSVG(avatarSvgs[guiState.avatarSVG]));
-  
+
   const debugControls = gui.addFolder('Debug controls');
   debugControls.open();
   gui.add(guiState, 'showKeypoints').onChange(drawDetectionResults);
@@ -238,7 +239,7 @@ function setupGui() {
  */
 export async function bindPage() {
   toggleLoadingUI(true);
-  canvasScope = paper.default;
+  canvasScope = paper;
   let canvas = getIllustrationCanvas();
   canvas.width = CANVAS_WIDTH;
   canvas.height = CANVAS_HEIGHT;
@@ -246,12 +247,12 @@ export async function bindPage() {
 
   await tf.setBackend('webgl');
   setStatusText('Loading PoseNet model...');
-  posenet = await posenet_module.load({
+  posenet = await posenetModule.load({
     architecture: resnetArchitectureName,
     outputStride: defaultStride,
     inputResolution: defaultInputResolution,
     multiplier: defaultMultiplier,
-    quantBytes: defaultQuantBytes
+    quantBytes: defaultQuantBytes,
   });
 
   setupGui(posenet);

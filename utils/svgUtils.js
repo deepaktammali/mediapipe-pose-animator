@@ -19,7 +19,7 @@ import * as paper from 'paper';
 
 export class SVGUtils {
     static importSVG(file) {
-        let svgScope = new paper.default.PaperScope();
+        let svgScope = new paper.PaperScope();
         let canvas = svgScope.createCanvas(0, 0);
         svgScope.setup(canvas);
         return new Promise((resolve, reject) => {

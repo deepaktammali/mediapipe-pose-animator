@@ -20,7 +20,7 @@ import * as paper from 'paper';
 
 export class Palette {
     constructor(colors) {
-        let scope = paper.default;
+        let scope = paper;
         this.colors = colors.map(c => ({
             light: new scope.Color(c[0]).convert('hsb'),
             dark: new scope.Color(c[1]).convert('hsb'),
@@ -28,7 +28,7 @@ export class Palette {
     }
 
     select(variance) {
-        let scope = paper.default;
+        let scope = paper;
         let pair = this.colors[Math.floor(Math.random() * this.colors.length)];
         let varColor = (c) => new scope.Color({
             hue: c.hue + 360 * MathUtils.gaussian(0, variance),
@@ -50,7 +50,7 @@ export class ColorUtils {
     }
 
     static lerp(color0, color1, amt) {
-        return new paper.default.Color(
+        return new paper.Color(
             MathUtils.lerp(color0.red, color1.red, amt),
             MathUtils.lerp(color0.green, color1.green, amt),
             MathUtils.lerp(color0.blue, color1.blue, amt),
@@ -71,6 +71,6 @@ export class ColorUtils {
         let r = hash & 255;
         let g = (hash & (255 << 8)) >> 8;
         let b = (hash & (255 << 16)) >> 16;
-        return new paper.default.Color(r / 255, g / 255, b / 255);
+        return new paper.Color(r / 255, g / 255, b / 255);
     }
 }
